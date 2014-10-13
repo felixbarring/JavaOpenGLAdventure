@@ -1,11 +1,6 @@
 package com.opengl005.MovingTriangle;
 
-import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
-import static org.lwjgl.opengl.GL15.glBindBuffer;
-import static org.lwjgl.opengl.GL15.glBufferSubData;
-
 import java.nio.FloatBuffer;
-
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.ContextAttribs;
@@ -76,7 +71,7 @@ public class MovingTriangle {
 	float yOffset = 0.1f;
 	
 	// Don't fear the magic numbers
-	public void update() {
+	private void update() {
 		
 		if((xOffset + vertexData.get(0) + 0.6) > 1 || (xOffset + vertexData.get(0) - 0.6) < -1){
 			xDirection = -xDirection; 
@@ -99,9 +94,9 @@ public class MovingTriangle {
 
 		newData.flip();
 
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, newData);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
+		GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER, 0, newData);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 	}
 
 	private void loop() {

@@ -118,6 +118,11 @@ public class ShaderProgram {
 		GL20.glUseProgram(0);
 	}
 
+	public int getId(){
+		return PROGRAM_ID;
+	}
+	
+	
 	/**
 	 * 
 	 */
