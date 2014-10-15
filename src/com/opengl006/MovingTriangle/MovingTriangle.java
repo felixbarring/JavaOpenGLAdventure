@@ -21,8 +21,8 @@ public class MovingTriangle {
 	private final int MAX_FPS = 100; 
 	private final int VBO;
 	private final ShaderProgram PROGRAM;
-	private final FloatBuffer vertexData;
-	private int offsetLocation;
+	private final FloatBuffer VERTEX_DATA;
+	private final int OFFSET_LOCATION;
 	
 	public MovingTriangle(){
 		
@@ -40,7 +40,7 @@ public class MovingTriangle {
 		VBO = GL15.glGenBuffers();
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, VBO);
 		
-		vertexData = (FloatBuffer) BufferUtils.createFloatBuffer(24).put(new float[]{
+		VERTEX_DATA = (FloatBuffer) BufferUtils.createFloatBuffer(24).put(new float[]{
 				0f, 0.6f, 0.0f, 1.0f,
 				0.6f, -0.6f, 0.0f, 1.0f,
 				-0.6f, -0.6f, 0.0f, 1.0f,
@@ -49,14 +49,11 @@ public class MovingTriangle {
 				0.0f, 0.0f, 1.0f, 1.0f
 		}).flip();
 		
-		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vertexData, GL15.GL_STATIC_DRAW);
-		
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, VERTEX_DATA, GL15.GL_STATIC_DRAW);
 		GL30.glBindVertexArray(GL30.glGenVertexArrays());
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-		
 		GL11.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-		
-		offsetLocation = GL20.glGetUniformLocation(PROGRAM.getId(), "offset");
+		OFFSET_LOCATION = GL20.glGetUniformLocation(PROGRAM.getId(), "offset");
 		
 		resize();
 		loop();
@@ -77,13 +74,12 @@ public class MovingTriangle {
 		}
 	}
 	
-	
 	private float xOff = 0.0f;
 	private float yOff = 0.0f;
 	private int xDirection = 1;
 	private int yDirection = 1;
-	private final float xSpeed = 0.025f;
-	private final float ySpeed = 0.01f;
+	private final float xSpeed = 0.015f;
+	private final float ySpeed = 0.005f;
 	private void update(){
 		xOff = xOff + xDirection * xSpeed;
 		if(xOff < -0.4f || xOff > 0.4f){
@@ -100,7 +96,7 @@ public class MovingTriangle {
 		
 		PROGRAM.use();
 		
-		GL20.glUniform2f(offsetLocation, xOff, yOff);
+		GL20.glUniform2f(OFFSET_LOCATION, xOff, yOff);
 		
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, VBO);
 		GL20.glEnableVertexAttribArray(0);
